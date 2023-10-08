@@ -12,7 +12,7 @@ require('dotenv').config();
 const app = express()
 app.use(express.json())
 app.use (cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://reset-password-flow-app.netlify.app"],
     methods:["GET","POST"],
     credentials:true
 }))
@@ -49,7 +49,7 @@ app.post("/login", (req,res) =>{
                      res.json("the password is incorrect")
                 }
                 if (response){
-                    const token = jwt.sign({email:user.email}, 'process.env.jwt',{expiresIn:"1d"})
+                    const token = jwt.sign({email:user.email}, process.env.jwt,{expiresIn:"1d"})
                     res.cookie("token", token);
                     res.json("success")
                 }else {
@@ -95,7 +95,7 @@ app.post('/forgot-password', (req, res) => {
             from: 'johnkennady2201@gmail.com',
             to: user.email,
             subject: 'Reset Password Link',
-            text: `http://localhost:5173/reset_password/${user._id}/${token}`
+            text: `https://reset-password-flow-app.netlify.app/reset_password/${user._id}/${token}`
           };
           
           transporter.sendMail(mailOptions, function(error, info){
